@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A JavaScript product inventory and analytics dashboard.">
+  <title>StockWise | Inventory Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="StockWise home"><span class="brand-mark">S</span><span>StockWise</span></a>
+      <p class="nav-label">WORKSPACE</p>
+      <a class="nav-item active" href="#dashboard"><span>▦</span> Dashboard</a>
+      <a class="nav-item" href="#inventory"><span>▤</span> Inventory</a>
+      <div class="sidebar-bottom">
+        <div class="side-note"><span class="status-dot"></span><div><strong>Local workspace</strong><small>Your data stays in this browser</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="dashboard">
+      <header class="topbar">
+        <div><p class="eyebrow">OVERVIEW</p><h1>Inventory dashboard</h1><p class="subheading">A clear view of your products, stock, and inventory value.</p></div>
+        <button class="primary-btn" id="addProductTop">＋ Add product</button>
+      </header>
+
+      <section class="stats-grid" aria-label="Inventory summary">
+        <article class="stat-card"><div class="stat-top"><span>Total products</span><span class="stat-icon violet">▤</span></div><strong id="totalProducts">0</strong><small>Unique products in inventory</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Total units</span><span class="stat-icon blue">▥</span></div><strong id="totalUnits">0</strong><small>Units currently in stock</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Inventory value</span><span class="stat-icon green">₹</span></div><strong id="inventoryValue">₹0</strong><small>Quantity × unit price</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Low-stock items</span><span class="stat-icon orange">!</span></div><strong id="lowStockCount">0</strong><small>Products with 5 units or fewer</small></article>
+      </section>
+
+      <section class="content-card" id="inventory">
+        <div class="section-heading"><div><h2>Product inventory</h2><p>Manage your catalogue and monitor stock levels.</p></div><button class="secondary-btn" id="exportBtn">↓ Export CSV</button></div>
+        <div class="toolbar">
+          <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search product or category…" aria-label="Search products"></label>
+          <select id="categoryFilter" aria-label="Filter by category"><option value="all">All categories</option></select>
+          <select id="stockFilter" aria-label="Filter by stock status"><option value="all">All stock levels</option><option value="low">Low stock (≤ 5)</option><option value="healthy">Healthy stock</option><option value="out">Out of stock</option></select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>PRODUCT</th><th>CATEGORY</th><th>UNIT PRICE</th><th>QUANTITY</th><th>STOCK STATUS</th><th>VALUE</th><th>ACTIONS</th></tr></thead>
+            <tbody id="productTable"></tbody>
+          </table>
+          <div class="empty-state" id="emptyState" hidden><div class="empty-icon">▤</div><strong>No products found</strong><p>Try changing your search or add a new product.</p></div>
+        </div>
+        <div class="table-footer"><span id="resultCount">0 products</span><span>Demo data can be edited or removed</span></div>
+      </section>
+
+      <section class="bottom-grid">
+        <article class="content-card chart-card"><div class="section-heading"><div><h2>Stock by category</h2><p>Units currently available</p></div></div><div id="categoryChart" class="category-chart"></div></article>
+        <article class="content-card alert-card"><div class="section-heading"><div><h2>Stock alerts</h2><p>Items that may need a restock</p></div><span class="alert-count" id="alertBadge">0</span></div><div id="stockAlerts" class="stock-alerts"></div></article>
+      </section>
+      <footer>StockWise · Built with HTML, CSS & Vanilla JavaScript · Data is saved in this browser</footer>
+    </main>
+  </div>
+
+  <dialog id="productDialog">
+    <form id="productForm" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow">INVENTORY ITEM</p><h2 id="dialogTitle">Add product</h2></div><button type="button" class="icon-btn" id="closeDialog" aria-label="Close">×</button></div>
+      <input type="hidden" id="productId">
+      <label>Product name<input id="productName" required maxlength="70" placeholder="e.g. Wireless keyboard"></label>
+      <div class="form-row"><label>Category<input id="productCategory" required maxlength="40" placeholder="e.g. Electronics"></label><label>Unit price (₹)<input id="productPrice" required type="number" min="0" step="0.01" placeholder="1299"></label></div>
+      <label>Quantity in stock<input id="productQuantity" required type="number" min="0" step="1" placeholder="25"></label>
+      <p class="form-error" id="formError" role="alert"></p>
+      <div class="dialog-actions"><button type="button" class="secondary-btn" id="cancelDialog">Cancel</button><button type="submit" class="primary-btn">Save product</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
