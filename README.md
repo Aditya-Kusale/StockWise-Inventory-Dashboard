@@ -63,3 +63,7 @@ The overall inventory value is the sum of all product inventory values.
 ## Author
 
 Aditya Kusale and https://github.com/Aditya-Kusale
+## Key Topics
+`inventory-management` · `dashboard` · `javascript` · `html` · `localstorage` · `csv-export` · `product-management`
+## License
+Distributed under the [MIT License](LICENSE).
